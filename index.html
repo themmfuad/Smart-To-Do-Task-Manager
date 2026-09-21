@@ -17,7 +17,9 @@
             color: #333;
             padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
@@ -201,6 +203,138 @@
             font-size: 13px;
             margin-top: 15px;
         }
+
+        /* Footer styling */
+        footer {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .dev-info-btn {
+            background-color: #34495e;
+            color: white;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .dev-info-btn:hover {
+            background-color: #2c3e50;
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: modalFadeIn 0.25s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .close-modal-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .close-modal-btn:hover {
+            color: #e74c3c;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .group-badge {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .dev-list {
+            list-style: none;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .dev-list li {
+            padding: 10px 14px;
+            font-size: 13px;
+            border-bottom: 1px solid #eee;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .dev-list li:last-child {
+            border-bottom: none;
+        }
+
+        .dev-list li:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .dev-name {
+            font-weight: bold;
+        }
+
+        .dev-id {
+            color: #7f8c8d;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body>
@@ -246,6 +380,32 @@
         <div id="emptyMsg" class="empty-msg" style="display: none;">No tasks found!</div>
     </div>
 
+    <!-- Footer with Developer Info Button -->
+    <footer>
+        <button type="button" id="devInfoBtn" class="dev-info-btn">Developer Info</button>
+    </footer>
+
+    <!-- Developer Info Modal -->
+    <div id="devModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Developer Information</h2>
+                <button type="button" id="closeModalBtn" class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="group-badge">Group: 4-G</div>
+                <ul class="dev-list">
+                    <li><span class="dev-name">A. RAHMAN FAHIM</span><span class="dev-id">26005011</span></li>
+                    <li><span class="dev-name">FAYSAL MUNNA</span><span class="dev-id">26005012</span></li>
+                    <li><span class="dev-name">MD TANVIR KHAN</span><span class="dev-id">26005013</span></li>
+                    <li><span class="dev-name">MD MUBTASHIM FUAD</span><span class="dev-id">26205092</span></li>
+                    <li><span class="dev-name">Shoib Rahman</span><span class="dev-id">26205100</span></li>
+                    <li><span class="dev-name">Ashraf Shakil</span><span class="dev-id">26205023</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Array in memory
         let tasks = [];
@@ -281,6 +441,26 @@
         const taskStats = document.getElementById('taskStats');
         const percentStats = document.getElementById('percentStats');
         const progressFill = document.getElementById('progressFill');
+
+        // Modal DOM elements
+        const devModal = document.getElementById('devModal');
+        const devInfoBtn = document.getElementById('devInfoBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        // Modal Event Listeners
+        devInfoBtn.onclick = function() {
+            devModal.style.display = 'flex';
+        };
+
+        closeModalBtn.onclick = function() {
+            devModal.style.display = 'none';
+        };
+
+        window.onclick = function(event) {
+            if (event.target === devModal) {
+                devModal.style.display = 'none';
+            }
+        };
 
         // Core add task handler
         function handleAddTask() {
